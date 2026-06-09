@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "caminhao_id": 3,
+    "tipo": "corretiva",
+    "descricao": "Troca de correia dentada e bomba d'água",
+    "km_realizacao": 95800,
+    "km_proxima": 115800,
+    "data_realizacao": "2026-06-01",
+    "data_proxima": "2026-12-01",
+    "oficina": "Auto Mecânica Central",
+    "responsavel": "José Mecânico",
+    "custo": 1850,
+    "status": "concluida",
+    "pecas_substituidas": "Correia dentada, bomba d'água, kit tensor",
+    "observacoes": "",
+    "criado_em": "2026-06-07T14:13:30.901Z",
+    "atualizado_em": "2026-06-07T14:13:30.901Z"
+  },
+  {
+    "id": 2,
+    "caminhao_id": 1,
+    "tipo": "preventiva",
+    "descricao": "Troca de óleo e filtros — revisão 90.000 km",
+    "km_realizacao": 87500,
+    "km_proxima": 97500,
+    "data_realizacao": "2026-05-20",
+    "data_proxima": "2026-09-20",
+    "oficina": "Volvo Concessionária RS",
+    "responsavel": "Técnico Volvo",
+    "custo": 620,
+    "status": "concluida",
+    "pecas_substituidas": "Filtro de óleo, filtro de ar, filtro de combustível",
+    "observacoes": "",
+    "criado_em": "2026-06-07T14:13:30.901Z",
+    "atualizado_em": "2026-06-07T14:13:30.901Z"
+  },
+  {
+    "id": 3,
+    "caminhao_id": 5,
+    "tipo": "Corretiva",
+    "descricao": "Concerto embreagem",
+    "data_manutencao": "2025-06-13",
+    "quilometragem": 156890,
+    "valor": 1800,
+    "status": "Agendada",
+    "criado_em": "2026-06-07T18:23:09.354Z",
+    "atualizado_em": "2026-06-07T18:23:09.354Z"
+  }
+]

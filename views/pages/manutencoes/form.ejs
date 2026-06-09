@@ -1,0 +1,138 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: manutencao ? 'Editar Manutenção' : 'Nova Manutenção' }) %>
+  <main class="content-area">
+
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+      <div class="flash flash-danger"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+    <% } %>
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-tools"></i> <%= manutencao ? 'Editar Manutenção' : 'Nova Manutenção' %></h1>
+      </div>
+      <div class="page-header-right">
+        <a href="/manutencoes" class="btn" style="border: 1px solid var(--border);"><i class="fas fa-arrow-left"></i> Voltar</a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-body" style="padding: 24px;">
+        <form action="<%= manutencao ? '/manutencoes/' + manutencao.id + '?_method=PUT' : '/manutencoes' %>" method="POST">
+          
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label class="form-label">Caminhão *</label>
+              <select name="caminhao_id" class="form-control" required>
+                <option value="">Selecione o Caminhão</option>
+                <% if (caminhoes && caminhoes.length > 0) { %>
+                  <% caminhoes.forEach(c => { %>
+                    <option value="<%= c.id %>" <%= (manutencao && parseInt(manutencao.caminhao_id) === c.id) ? 'selected' : '' %>>
+                      <%= c.placa %> — <%= c.marca %> <%= c.modelo %>
+                    </option>
+                  <% }) %>
+                <% } %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Tipo de Manutenção *</label>
+              <select name="tipo" class="form-control" required>
+                <option value="">Selecione</option>
+                <% const currentTipo = manutencao ? (manutencao.tipo || '').toLowerCase() : ''; %>
+                <option value="Preventiva" <%= currentTipo === 'preventiva' ? 'selected' : '' %>>Preventiva</option>
+                <option value="Corretiva" <%= currentTipo === 'corretiva' ? 'selected' : '' %>>Corretiva</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Data *</label>
+              <% 
+                let dataM = '';
+                if (manutencao) {
+                  const d = manutencao.data_manutencao || manutencao.data_realizacao;
+                  if (d) dataM = d.substring(0, 10);
+                }
+              %>
+              <input type="date" name="data_manutencao" class="form-control" value="<%= dataM %>" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Quilometragem (KM) *</label>
+              <input type="number" step="0.1" name="quilometragem" class="form-control" value="<%= manutencao ? (manutencao.quilometragem || manutencao.km_realizacao || 0) : '' %>" required min="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Valor (R$) *</label>
+              <input type="number" step="0.01" name="valor" class="form-control" value="<%= manutencao ? (manutencao.valor || manutencao.custo || '') : '' %>" required min="0.01" placeholder="0.00">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select name="status" class="form-control">
+                <% const currentStatus = manutencao ? (manutencao.status || '').toLowerCase() : 'agendada'; %>
+                <option value="Agendada" <%= currentStatus === 'agendada' ? 'selected' : '' %>>Agendada</option>
+                <option value="Em Execução" <%= currentStatus === 'em execução' || currentStatus === 'em execucao' ? 'selected' : '' %>>Em Execução</option>
+                <option value="Concluída" <%= currentStatus === 'concluída' || currentStatus === 'concluida' ? 'selected' : '' %>>Concluída</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label class="form-label">Descrição</label>
+              <textarea name="descricao" class="form-control" rows="3" placeholder="Detalhes dos serviços realizados, peças trocadas, etc..."><%= manutencao ? manutencao.descricao : '' %></textarea>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; text-align: right; border-top: 1px solid var(--border-light); padding-top: 20px;">
+            <a href="/manutencoes" class="btn" style="margin-right: 12px; border: 1px solid var(--border);">Cancelar</a>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Manutenção</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .form-control {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: var(--transition);
+    background: var(--bg);
+    font-family: inherit;
+  }
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(26,86,219,.1);
+  }
+  textarea.form-control {
+    resize: vertical;
+  }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

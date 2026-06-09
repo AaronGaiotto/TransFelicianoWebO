@@ -1,0 +1,33 @@
+<%- include('../layout/head') %>
+<body class="app-body">
+<%- include('../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../layout/header', { usuario, pageTitle: 'Usuários' }) %>
+  <main class="content-area">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-users-cog"></i> Usuários</h1>
+        <p class="page-subtitle">Gerenciamento de usuários e permissões do sistema</p>
+      </div>
+      <div class="page-header-right">
+        <button class="btn btn-primary" disabled><i class="fas fa-plus"></i> Novo Usuário</button>
+      </div>
+    </div>
+    <div class="coming-soon-card">
+      <div class="coming-soon-icon" style="background: linear-gradient(135deg,#DB2777,#BE185D);">
+        <i class="fas fa-users-cog"></i>
+      </div>
+      <h2>Módulo de Usuários</h2>
+      <p>Controle de acesso com perfis de usuário, permissões por módulo e log de atividades.</p>
+      <div class="coming-soon-features">
+        <span><i class="fas fa-check-circle"></i> Cadastro de usuários</span>
+        <span><i class="fas fa-check-circle"></i> Perfis de acesso</span>
+        <span><i class="fas fa-check-circle"></i> Troca de senha</span>
+        <span><i class="fas fa-check-circle"></i> Log de atividades</span>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

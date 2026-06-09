@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "categoria": "combustivel",
+    "descricao": "Abastecimento — Posto Shell km 120 BR-116",
+    "valor": 780,
+    "data_despesa": "2026-06-06",
+    "caminhao_id": 2,
+    "motorista_id": 2,
+    "rota_id": 2,
+    "forma_pagamento": "cartao_credito",
+    "status": "pago",
+    "comprovante": null,
+    "observacoes": "",
+    "criado_em": "2026-06-07T14:13:30.901Z",
+    "atualizado_em": "2026-06-07T14:13:30.901Z"
+  },
+  {
+    "id": 2,
+    "categoria": "pedagio",
+    "descricao": "Pedágios — rota RT-001 Porto Alegre → SP",
+    "valor": 312.5,
+    "data_despesa": "2026-05-10",
+    "caminhao_id": 1,
+    "motorista_id": 1,
+    "rota_id": 1,
+    "forma_pagamento": "dinheiro",
+    "status": "pago",
+    "comprovante": null,
+    "observacoes": "",
+    "criado_em": "2026-06-07T14:13:30.901Z",
+    "atualizado_em": "2026-06-07T14:13:30.901Z"
+  },
+  {
+    "id": 3,
+    "categoria": "manutencao",
+    "descricao": "Pagamento oficina — troca correia GHI-9012",
+    "valor": 1850,
+    "data_despesa": "2026-06-01",
+    "caminhao_id": 3,
+    "motorista_id": null,
+    "rota_id": null,
+    "forma_pagamento": "pix",
+    "status": "pago",
+    "comprovante": null,
+    "observacoes": "",
+    "criado_em": "2026-06-07T14:13:30.901Z",
+    "atualizado_em": "2026-06-07T14:13:30.901Z"
+  }
+]

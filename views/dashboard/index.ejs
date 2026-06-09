@@ -1,0 +1,247 @@
+<%- include('../layout/head') %>
+<body class="app-body">
+
+<%- include('../layout/sidebar', { usuario, activePage }) %>
+
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../layout/header', { usuario, pageTitle: 'Dashboard' }) %>
+
+  <main class="content-area">
+
+    <!-- Flash messages -->
+    <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+      <div class="flash flash-success"><i class="fas fa-check-circle"></i> <%= success %></div>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+      <div class="flash flash-danger"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+    <% } %>
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Visão geral da operação da Trans Feliciano</p>
+      </div>
+      <div class="page-header-right">
+        <div class="current-date-badge">
+          <i class="fas fa-calendar-check"></i>
+          <span id="fullDate"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+
+      <div class="stat-card stat-blue" data-value="<%= stats.caminhoes %>">
+        <div class="stat-card-body">
+          <div class="stat-icon">
+            <i class="fas fa-truck"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Caminhões Ativos</span>
+            <span class="stat-value" data-target="<%= stats.caminhoes %>">0</span>
+          </div>
+        </div>
+        <div class="stat-card-footer">
+          <a href="/caminhoes" class="stat-link">
+            Ver todos <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="stat-card-wave"></div>
+      </div>
+
+      <div class="stat-card stat-green" data-value="<%= stats.motoristas %>">
+        <div class="stat-card-body">
+          <div class="stat-icon">
+            <i class="fas fa-id-card"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Motoristas Ativos</span>
+            <span class="stat-value" data-target="<%= stats.motoristas %>">0</span>
+          </div>
+        </div>
+        <div class="stat-card-footer">
+          <a href="/motoristas" class="stat-link">
+            Ver todos <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="stat-card-wave"></div>
+      </div>
+
+      <div class="stat-card stat-amber" data-value="<%= stats.rotas %>">
+        <div class="stat-card-body">
+          <div class="stat-icon">
+            <i class="fas fa-route"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Total de Rotas</span>
+            <span class="stat-value" data-target="<%= stats.rotas %>">0</span>
+          </div>
+        </div>
+        <div class="stat-card-footer">
+          <a href="/rotas" class="stat-link">
+            Ver todas <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="stat-card-wave"></div>
+      </div>
+
+      <div class="stat-card stat-red" data-value="<%= stats.manutencoes %>">
+        <div class="stat-card-body">
+          <div class="stat-icon">
+            <i class="fas fa-wrench"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Manutenções</span>
+            <span class="stat-value" data-target="<%= stats.manutencoes %>">0</span>
+          </div>
+        </div>
+        <div class="stat-card-footer">
+          <a href="/manutencoes" class="stat-link">
+            Ver todas <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="stat-card-wave"></div>
+      </div>
+
+      <div class="stat-card stat-purple">
+        <div class="stat-card-body">
+          <div class="stat-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-label">Despesas Pagas</span>
+            <span class="stat-value">
+              R$ <%= Number(stats.despesas).toLocaleString('pt-BR', {minimumFractionDigits:2,maximumFractionDigits:2}) %>
+            </span>
+          </div>
+        </div>
+        <div class="stat-card-footer">
+          <a href="/despesas" class="stat-link">
+            Ver todas <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+        <div class="stat-card-wave"></div>
+      </div>
+
+    </div><!-- /stats-grid -->
+
+    <!-- Bottom Row -->
+    <div class="dashboard-grid">
+
+      <!-- Últimas Manutenções -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <h2 class="dash-card-title">
+            <i class="fas fa-wrench"></i> Últimas Manutenções
+          </h2>
+          <a href="/manutencoes" class="dash-card-action">Ver todas</a>
+        </div>
+        <div class="dash-card-body">
+          <% if (ultimas_manutencoes.length === 0) { %>
+            <div class="empty-state">
+              <i class="fas fa-tools"></i>
+              <p>Nenhuma manutenção registrada.</p>
+            </div>
+          <% } else { %>
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>Veículo</th>
+                  <th>Tipo</th>
+                  <th>Data</th>
+                  <th>Custo</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% ultimas_manutencoes.forEach(m => { %>
+                <tr>
+                  <td><strong><%= m.placa %></strong> <small><%= m.modelo %></small></td>
+                  <td><span class="badge badge-info"><%= m.tipo %></span></td>
+                  <td><%= new Date(m.data_realizacao).toLocaleDateString('pt-BR') %></td>
+                  <td>R$ <%= Number(m.custo).toLocaleString('pt-BR',{minimumFractionDigits:2}) %></td>
+                  <td>
+                    <span class="badge badge-<%= m.status === 'concluida' ? 'success' : m.status === 'em_andamento' ? 'warning' : 'secondary' %>">
+                      <%= m.status %>
+                    </span>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+
+      <!-- Últimas Rotas -->
+      <div class="dash-card">
+        <div class="dash-card-header">
+          <h2 class="dash-card-title">
+            <i class="fas fa-route"></i> Últimas Rotas
+          </h2>
+          <a href="/rotas" class="dash-card-action">Ver todas</a>
+        </div>
+        <div class="dash-card-body">
+          <% if (ultimas_rotas.length === 0) { %>
+            <div class="empty-state">
+              <i class="fas fa-map-marked-alt"></i>
+              <p>Nenhuma rota cadastrada.</p>
+            </div>
+          <% } else { %>
+            <table class="dash-table">
+              <thead>
+                <tr>
+                  <th>Origem → Destino</th>
+                  <th>Motorista</th>
+                  <th>Placa</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% ultimas_rotas.forEach(r => { %>
+                <tr>
+                  <td><strong><%= r.origem %></strong> → <%= r.destino %></td>
+                  <td><%= r.motorista_nome || '—' %></td>
+                  <td><%= r.placa || '—' %></td>
+                  <td>
+                    <span class="badge badge-<%= r.status === 'concluida' ? 'success' : r.status === 'em_andamento' ? 'warning' : r.status === 'cancelada' ? 'danger' : 'info' %>">
+                      <%= r.status %>
+                    </span>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          <% } %>
+        </div>
+      </div>
+
+    </div><!-- /dashboard-grid -->
+
+  </main><!-- /content-area -->
+</div><!-- /main-wrapper -->
+
+<script src="/js/main.js"></script>
+<script>
+  // Contador animado dos cards
+  document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    if (isNaN(target) || target === 0) { el.textContent = '0'; return; }
+    let current = 0;
+    const step = Math.ceil(target / 40);
+    const timer = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current.toLocaleString('pt-BR');
+    }, 30);
+  });
+
+  // Data completa
+  const now = new Date();
+  const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+  document.getElementById('fullDate').textContent = now.toLocaleDateString('pt-BR', opts);
+</script>
+</body>
+</html>

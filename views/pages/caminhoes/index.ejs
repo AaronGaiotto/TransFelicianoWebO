@@ -1,0 +1,97 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: 'Caminhões' }) %>
+  <main class="content-area">
+    
+    <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+      <div class="flash flash-success"><i class="fas fa-check-circle"></i> <%= success %></div>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+      <div class="flash flash-danger"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+    <% } %>
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-truck"></i> Caminhões</h1>
+        <p class="page-subtitle">Gerenciamento da frota de veículos</p>
+      </div>
+      <div class="page-header-right">
+        <a href="/caminhoes/novo" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Novo Caminhão
+        </a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-body">
+        <% if (!caminhoes || caminhoes.length === 0) { %>
+          <div class="empty-state">
+            <i class="fas fa-truck"></i>
+            <p>Nenhum caminhão cadastrado.</p>
+          </div>
+        <% } else { %>
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th>Placa</th>
+                <th>Marca / Modelo</th>
+                <th>Ano</th>
+                <th>KM</th>
+                <th>Status</th>
+                <th style="text-align: center;">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% caminhoes.forEach(c => { %>
+                <tr>
+                  <td><strong><%= c.placa %></strong></td>
+                  <td><%= c.marca %> <small><%= c.modelo %></small></td>
+                  <td><%= c.ano %></td>
+                  <td><%= Number(c.quilometragem || c.km_atual).toLocaleString('pt-BR') %></td>
+                  <td>
+                    <span class="badge badge-<%= c.status === 'Ativo' || c.status === 'ativo' ? 'success' : c.status === 'Inativo' || c.status === 'inativo' ? 'secondary' : 'warning' %>">
+                      <%= c.status %>
+                    </span>
+                  </td>
+                  <td style="text-align: center; white-space: nowrap;">
+                    <a href="/caminhoes/<%= c.id %>" class="btn-action view" title="Detalhes"><i class="fas fa-eye"></i></a>
+                    <a href="/caminhoes/<%= c.id %>/editar" class="btn-action edit" title="Editar"><i class="fas fa-edit"></i></a>
+                    <form action="/caminhoes/<%= c.id %>?_method=DELETE" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este caminhão?');">
+                      <button type="submit" class="btn-action delete" title="Excluir"><i class="fas fa-trash-alt"></i></button>
+                    </form>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </div>
+  </main>
+</div>
+
+<style>
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    margin: 0 2px;
+    color: var(--text-secondary);
+    background: var(--bg);
+    transition: var(--transition);
+    border: 1px solid var(--border);
+  }
+  .btn-action:hover { color: #fff; border-color: transparent; }
+  .btn-action.view:hover { background: var(--primary); }
+  .btn-action.edit:hover { background: var(--amber); }
+  .btn-action.delete:hover { background: var(--red); }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

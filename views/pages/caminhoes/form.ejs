@@ -1,0 +1,112 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: caminhao ? 'Editar Caminhão' : 'Novo Caminhão' }) %>
+  <main class="content-area">
+
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+      <div class="flash flash-danger"><i class="fas fa-exclamation-circle"></i> <%= error %></div>
+    <% } %>
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-truck"></i> <%= caminhao ? 'Editar Caminhão' : 'Novo Caminhão' %></h1>
+      </div>
+      <div class="page-header-right">
+        <a href="/caminhoes" class="btn" style="border: 1px solid var(--border);"><i class="fas fa-arrow-left"></i> Voltar</a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-body" style="padding: 24px;">
+        <form action="<%= caminhao ? '/caminhoes/' + caminhao.id + '?_method=PUT' : '/caminhoes' %>" method="POST">
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Placa *</label>
+              <input type="text" name="placa" class="form-control" value="<%= caminhao ? caminhao.placa : '' %>" required style="text-transform: uppercase;">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Renavam *</label>
+              <input type="text" name="renavam" class="form-control" value="<%= caminhao ? caminhao.renavam : '' %>" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Marca</label>
+              <input type="text" name="marca" class="form-control" value="<%= caminhao ? caminhao.marca : '' %>">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Modelo</label>
+              <input type="text" name="modelo" class="form-control" value="<%= caminhao ? caminhao.modelo : '' %>">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Ano *</label>
+              <input type="number" name="ano" class="form-control" value="<%= caminhao ? caminhao.ano : new Date().getFullYear() %>" required min="1900" max="2100">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Quilometragem *</label>
+              <input type="number" step="0.1" name="quilometragem" class="form-control" value="<%= caminhao ? (caminhao.quilometragem || caminhao.km_atual || 0) : 0 %>" required min="0">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select name="status" class="form-control">
+                <% const currentStatus = caminhao ? (caminhao.status || '').toLowerCase() : 'ativo'; %>
+                <option value="Ativo" <%= currentStatus === 'ativo' ? 'selected' : '' %>>Ativo</option>
+                <option value="Em Manutenção" <%= currentStatus === 'em manutenção' || currentStatus === 'manutencao' ? 'selected' : '' %>>Em Manutenção</option>
+                <option value="Inativo" <%= currentStatus === 'inativo' ? 'selected' : '' %>>Inativo</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 24px; text-align: right; border-top: 1px solid var(--border-light); padding-top: 20px;">
+            <a href="/caminhoes" class="btn" style="margin-right: 12px; border: 1px solid var(--border);">Cancelar</a>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Salvar Caminhão</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .form-control {
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    transition: var(--transition);
+    background: var(--bg);
+  }
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(26,86,219,.1);
+  }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

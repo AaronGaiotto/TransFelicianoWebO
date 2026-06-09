@@ -1,0 +1,122 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: 'Detalhes da Rota' }) %>
+  <main class="content-area">
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-route"></i> Rota #<%= rota.id %></h1>
+        <p class="page-subtitle"><%= rota.origem %> <i class="fas fa-arrow-right" style="font-size:10px; margin:0 4px;"></i> <%= rota.destino %></p>
+      </div>
+      <div class="page-header-right" style="display: flex; gap: 10px;">
+        <a href="/rotas" class="btn" style="border: 1px solid var(--border);"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="/rotas/<%= rota.id %>/editar" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title"><i class="fas fa-info-circle"></i> Informações da Rota</h2>
+        <% 
+          let badgeClass = 'secondary';
+          const st = (rota.status || '').toLowerCase();
+          if (st === 'concluída' || st === 'concluida') badgeClass = 'success';
+          else if (st === 'em andamento') badgeClass = 'warning';
+          else if (st === 'cancelada') badgeClass = 'danger';
+          else badgeClass = 'info';
+        %>
+        <span class="badge badge-<%= badgeClass %>">
+          <%= rota.status %>
+        </span>
+      </div>
+      <div class="dash-card-body" style="padding: 24px;">
+        
+        <div class="info-grid">
+          
+          <div class="info-group">
+            <span class="info-label">Origem</span>
+            <span class="info-value"><strong><%= rota.origem %></strong></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Destino</span>
+            <span class="info-value"><strong><%= rota.destino %></strong></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Motorista Responsável</span>
+            <span class="info-value"><%= rota.motorista_nome %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Caminhão Vinculado</span>
+            <span class="info-value"><span class="badge" style="background:var(--bg-lighter); color:var(--text-primary); border:1px solid var(--border);"><%= rota.placa %></span></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Data de Saída</span>
+            <span class="info-value">
+              <%= rota.data_saida ? new Date(rota.data_saida).toLocaleString('pt-BR') : 'Não informada' %>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Data de Chegada</span>
+            <span class="info-value">
+              <%= rota.data_chegada ? new Date(rota.data_chegada).toLocaleString('pt-BR') : 'Ainda não chegou' %>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Valor do Frete</span>
+            <span class="info-value" style="color: var(--green); font-weight: 700;">
+              <%= new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(rota.valor_frete || 0) %>
+            </span>
+          </div>
+
+          <div class="info-group" style="grid-column: 1 / -1;">
+            <span class="info-label">Observações</span>
+            <span class="info-value" style="white-space: pre-wrap; background: var(--bg-lighter); padding: 12px; border-radius: 6px; border: 1px solid var(--border); display: block; margin-top: 4px; font-size: 14px;">
+              <%= rota.observacoes || 'Nenhuma observação.' %>
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  .info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .info-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-value {
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

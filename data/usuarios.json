@@ -1,0 +1,13 @@
+[
+  {
+    "id": 1,
+    "nome": "Administrador",
+    "email": "admin@transfeliciano.com.br",
+    "senha": "$2a$10$ni00kcRz2Er0D9A0lwuIBOGFMT.7bv0mPWsOF.eql4T03EZKYlOVm",
+    "perfil": "admin",
+    "ativo": true,
+    "ultimo_acesso": "2026-06-09T15:44:48.757Z",
+    "criado_em": "2026-06-07T14:13:30.901Z",
+    "atualizado_em": "2026-06-09T15:44:48.758Z"
+  }
+]

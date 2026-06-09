@@ -1,0 +1,103 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: 'Detalhes do Caminhão' }) %>
+  <main class="content-area">
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-truck"></i> Detalhes do Caminhão: <%= caminhao.placa %></h1>
+      </div>
+      <div class="page-header-right" style="display: flex; gap: 10px;">
+        <a href="/caminhoes" class="btn" style="border: 1px solid var(--border);"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="/caminhoes/<%= caminhao.id %>/editar" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title"><i class="fas fa-info-circle"></i> Informações do Veículo</h2>
+        <span class="badge badge-<%= (caminhao.status||'').toLowerCase() === 'ativo' ? 'success' : (caminhao.status||'').toLowerCase() === 'inativo' ? 'secondary' : 'warning' %>">
+          <%= caminhao.status %>
+        </span>
+      </div>
+      <div class="dash-card-body" style="padding: 24px;">
+        
+        <div class="info-grid">
+          <div class="info-group">
+            <span class="info-label">ID</span>
+            <span class="info-value">#<%= caminhao.id %></span>
+          </div>
+          
+          <div class="info-group">
+            <span class="info-label">Placa</span>
+            <span class="info-value"><strong><%= caminhao.placa %></strong></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Renavam</span>
+            <span class="info-value"><%= caminhao.renavam %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Marca / Modelo</span>
+            <span class="info-value"><%= caminhao.marca %> <%= caminhao.modelo %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Ano</span>
+            <span class="info-value"><%= caminhao.ano %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Quilometragem</span>
+            <span class="info-value"><%= Number(caminhao.quilometragem || caminhao.km_atual || 0).toLocaleString('pt-BR') %> km</span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Data de Cadastro</span>
+            <span class="info-value"><%= new Date(caminhao.criado_em).toLocaleDateString('pt-BR') %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Última Atualização</span>
+            <span class="info-value"><%= new Date(caminhao.atualizado_em).toLocaleDateString('pt-BR') %></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  .info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .info-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-value {
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

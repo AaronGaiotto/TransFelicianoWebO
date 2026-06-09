@@ -1,0 +1,30 @@
+<%- include('../layout/head') %>
+<body class="app-body">
+<%- include('../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../layout/header', { usuario, pageTitle: 'Relatórios' }) %>
+  <main class="content-area">
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-chart-bar"></i> Relatórios</h1>
+        <p class="page-subtitle">Análises e relatórios gerenciais da frota</p>
+      </div>
+    </div>
+    <div class="coming-soon-card">
+      <div class="coming-soon-icon" style="background: linear-gradient(135deg,#0891B2,#0E7490);">
+        <i class="fas fa-chart-bar"></i>
+      </div>
+      <h2>Módulo de Relatórios</h2>
+      <p>Geração de relatórios completos com gráficos, exportação e análises de desempenho operacional.</p>
+      <div class="coming-soon-features">
+        <span><i class="fas fa-check-circle"></i> Relatório de frota</span>
+        <span><i class="fas fa-check-circle"></i> Relatório financeiro</span>
+        <span><i class="fas fa-check-circle"></i> Exportação PDF/Excel</span>
+        <span><i class="fas fa-check-circle"></i> Gráficos e métricas</span>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/js/main.js"></script>
+</body>
+</html>

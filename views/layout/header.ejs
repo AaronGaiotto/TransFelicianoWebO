@@ -1,0 +1,33 @@
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="topbar-menu-btn" id="mobileSidebarToggle">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="topbar-breadcrumb">
+      <span class="breadcrumb-home"><i class="fas fa-home"></i></span>
+      <span class="breadcrumb-sep"><i class="fas fa-chevron-right"></i></span>
+      <span class="breadcrumb-current"><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Dashboard' %></span>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="topbar-date">
+      <i class="fas fa-calendar-alt"></i>
+      <span id="currentDate"></span>
+    </div>
+    <div class="topbar-notifications">
+      <button class="topbar-icon-btn" title="Notificações">
+        <i class="fas fa-bell"></i>
+        <span class="notification-badge">3</span>
+      </button>
+    </div>
+    <div class="topbar-user-menu">
+      <div class="topbar-user-avatar">
+        <%= usuario.nome.charAt(0).toUpperCase() %>
+      </div>
+      <div class="topbar-user-details">
+        <span class="topbar-user-name"><%= usuario.nome %></span>
+        <span class="topbar-user-role"><%= usuario.perfil %></span>
+      </div>
+    </div>
+  </div>
+</header>

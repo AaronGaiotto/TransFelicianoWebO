@@ -1,0 +1,106 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: 'Detalhes do Motorista' }) %>
+  <main class="content-area">
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-id-card"></i> Detalhes do Motorista: <%= motorista.nome %></h1>
+      </div>
+      <div class="page-header-right" style="display: flex; gap: 10px;">
+        <a href="/motoristas" class="btn" style="border: 1px solid var(--border);"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="/motoristas/<%= motorista.id %>/editar" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title"><i class="fas fa-info-circle"></i> Informações do Motorista</h2>
+        <span class="badge badge-<%= (motorista.status||'').toLowerCase() === 'ativo' ? 'success' : (motorista.status||'').toLowerCase() === 'inativo' ? 'secondary' : 'warning' %>">
+          <%= motorista.status %>
+        </span>
+      </div>
+      <div class="dash-card-body" style="padding: 24px;">
+        
+        <div class="info-grid">
+          <div class="info-group">
+            <span class="info-label">ID</span>
+            <span class="info-value">#<%= motorista.id %></span>
+          </div>
+          
+          <div class="info-group">
+            <span class="info-label">Nome Completo</span>
+            <span class="info-value"><strong><%= motorista.nome %></strong></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">CPF</span>
+            <span class="info-value"><%= motorista.cpf %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Telefone / Celular</span>
+            <span class="info-value"><%= motorista.telefone || 'Não informado' %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Número da CNH</span>
+            <span class="info-value"><%= motorista.numero_cnh || motorista.cnh || 'Não informado' %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Validade da CNH</span>
+            <span class="info-value">
+              <% const v = motorista.validade_cnh || motorista.cnh_validade; %>
+              <%= v ? new Date(v).toLocaleDateString('pt-BR') : 'Não informada' %>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Data de Cadastro</span>
+            <span class="info-value"><%= new Date(motorista.criado_em).toLocaleDateString('pt-BR') %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Última Atualização</span>
+            <span class="info-value"><%= new Date(motorista.atualizado_em).toLocaleDateString('pt-BR') %></span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  .info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .info-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-value {
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>

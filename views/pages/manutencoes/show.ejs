@@ -1,0 +1,131 @@
+<%- include('../../layout/head') %>
+<body class="app-body">
+<%- include('../../layout/sidebar', { usuario, activePage }) %>
+<div class="main-wrapper" id="mainWrapper">
+  <%- include('../../layout/header', { usuario, pageTitle: 'Detalhes da Manutenção' }) %>
+  <main class="content-area">
+
+    <div class="page-header">
+      <div class="page-header-left">
+        <h1 class="page-title"><i class="fas fa-tools"></i> Manutenção #<%= manutencao.id %></h1>
+        <p class="page-subtitle">Veículo: <%= manutencao.placa %></p>
+      </div>
+      <div class="page-header-right" style="display: flex; gap: 10px;">
+        <a href="/manutencoes" class="btn" style="border: 1px solid var(--border);"><i class="fas fa-arrow-left"></i> Voltar</a>
+        <a href="/manutencoes/<%= manutencao.id %>/editar" class="btn btn-primary"><i class="fas fa-edit"></i> Editar</a>
+      </div>
+    </div>
+
+    <div class="dash-card">
+      <div class="dash-card-header">
+        <h2 class="dash-card-title"><i class="fas fa-info-circle"></i> Informações do Serviço</h2>
+        <% 
+          let badgeClass = 'secondary';
+          const st = (manutencao.status || '').toLowerCase();
+          if (st === 'concluída' || st === 'concluida') badgeClass = 'success';
+          else if (st === 'em execução' || st === 'em execucao') badgeClass = 'warning';
+          else if (st === 'agendada') badgeClass = 'info';
+        %>
+        <span class="badge badge-<%= badgeClass %>">
+          <%= manutencao.status %>
+        </span>
+      </div>
+      <div class="dash-card-body" style="padding: 24px;">
+        
+        <div class="info-grid">
+          
+          <div class="info-group">
+            <span class="info-label">Caminhão Vinculado</span>
+            <span class="info-value">
+              <span class="badge" style="background:var(--bg-lighter); color:var(--text-primary); border:1px solid var(--border);">
+                <%= manutencao.placa %>
+              </span> 
+              <small style="color:var(--text-muted); margin-left:8px;"><%= manutencao.modelo %></small>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Tipo</span>
+            <span class="info-value">
+              <% if((manutencao.tipo||'').toLowerCase() === 'preventiva') { %>
+                <i class="fas fa-shield-alt" style="color:var(--primary); margin-right:4px;"></i> Preventiva
+              <% } else { %>
+                <i class="fas fa-wrench" style="color:var(--amber); margin-right:4px;"></i> Corretiva
+              <% } %>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Data</span>
+            <span class="info-value">
+              <% const d = manutencao.data_manutencao || manutencao.data_realizacao; %>
+              <%= d ? new Date(d).toLocaleDateString('pt-BR') : 'Não informada' %>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Quilometragem (KM)</span>
+            <span class="info-value"><%= Number(manutencao.quilometragem || manutencao.km_realizacao || 0).toLocaleString('pt-BR') %> km</span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Valor (Custo)</span>
+            <span class="info-value" style="color: var(--green); font-weight: 700;">
+              <%= new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(manutencao.valor || manutencao.custo || 0) %>
+            </span>
+          </div>
+
+          <div class="info-group" style="grid-column: 1 / -1;">
+            <span class="info-label">Descrição dos Serviços</span>
+            <span class="info-value" style="white-space: pre-wrap; background: var(--bg-lighter); padding: 12px; border-radius: 6px; border: 1px solid var(--border); display: block; margin-top: 4px; font-size: 14px;">
+              <%= manutencao.descricao || 'Nenhuma descrição detalhada.' %>
+            </span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Data de Registro</span>
+            <span class="info-value"><%= new Date(manutencao.criado_em).toLocaleDateString('pt-BR') %></span>
+          </div>
+
+          <div class="info-group">
+            <span class="info-label">Última Atualização</span>
+            <span class="info-value"><%= new Date(manutencao.atualizado_em).toLocaleDateString('pt-BR') %></span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<style>
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 24px;
+  }
+  .info-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .info-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .info-value {
+    font-size: 15px;
+    color: var(--text-primary);
+  }
+</style>
+
+<script src="/js/main.js"></script>
+</body>
+</html>
